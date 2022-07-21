@@ -1,0 +1,23 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name = "src.test.java" parallel = "tests" thread-count = "1">
+
+    <listeners>
+        <listener class-name="Utilities.Listeners"/>
+    </listeners>
+
+    <test name = "Allocation Page Test" parallel = "methods">
+        <classes>
+            <class name = "TestCases.AllocationOwnerTestCases" />
+        </classes>
+    </test>
+    <test name = "Project Owner Test" parallel = "methods">
+        <classes>
+            <class name = "TestCases.ProjectOwnerTestCases" />
+        </classes>
+    </test>
+    <test name = "Hasher Test" parallel = "methods">
+        <classes>
+            <class name = "TestCases.HasherTests" />
+        </classes>
+    </test>
+</suite>
