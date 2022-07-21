@@ -98,7 +98,7 @@ public class BaseClass {
     }
     public void go_to_pods_platform() throws InterruptedException
     {
-        driver.get("https://dna-staging.hashedin.com/pods/requests/PR-134");
+        driver.get("https://dna-staging.hashedin.com/pods/requests/"+prop.getProperty("PodId"));
     }
     @AfterMethod
     public void closeBrowser()
@@ -106,100 +106,4 @@ public class BaseClass {
         // close browser
         driver.close();
     }
-    /*public static WebDriver driver;
-    public String username = "rijsanyal@deloitte.com";
-    public String baseURL = "https://dna-staging.hashedin.com/allocation/allocate/";
-    public static Logger logger;
-    public static WebDriverWait wait;
-    public static Properties prop;
-
-    @BeforeMethod
-    public static WebDriver initialSetup(){         // start chrome with given url
-
-        System.setProperty("webdriver.chrome.driver","Drivers/chromedriver.exe");
-        driver=new ChromeDriver();
-        driver.manage().window().maximize();
-
-        load_properties_file();
-        driver.get(prop.getProperty("Url"));
-
-        wait = new WebDriverWait(driver, 40);
-        return driver;
-    }
-    @BeforeClass
-    public static void setup()
-    {
-        System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir")+"//Drivers//chromedriver");
-        driver=new ChromeDriver();
-        driver.manage().window().maximize();
-        prop = new Properties();
-
-        driver.get("https://dna-staging.hashedin.com/allocation/allocate");
-
-        //driver.manage().timeouts().implicitlyWait(20, Duration.ofSeconds(10));
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        //wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        //return driver;
-
-        *//*logger = Logger.getLogger("AllocationEngine");
-        PropertyConfigurator.configure("Log4j.properties");*//*
-    }
-    @AfterClass
-    public static void teardown()
-    {
-        driver.quit();
-    }
-    public void js_click(By element) throws InterruptedException {
-        System.out.println(element);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();",
-                driver.findElement(element));
-        Thread.sleep(1000);
-    }
-    public void do_click(By element) throws InterruptedException {
-        System.out.println(element);
-        wait.until(ExpectedConditions.presenceOfElementLocated(element));
-        driver.findElement(element).click();
-        Thread.sleep(1000);
-    }
-    public static void load_properties_file()
-    {
-        File file = new File(System.getProperty("user.dir")+"/src/test/GlobalData.properties");
-        FileInputStream fileInput = null;
-        try {
-            fileInput = new FileInputStream(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        prop = new Properties();
-
-        //load properties file
-        try {
-            prop.load(fileInput);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    *//*public static void load_properties_file(){
-        File file = new File(System.getProperty("user.dir")+"/src/test/Config.properties");
-        FileInputStream fileInput = null;
-        try {
-            fileInput = new FileInputStream(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        prop = new Properties();
-
-        //load properties file
-        try {
-            prop.load(fileInput);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*//*
-    public void go_to_allocation_engine() throws InterruptedException {
-        driver.get("https://dna-staging.hashedin.com/allocation/allocate");
-    }
-    public void go_to_pods_platform() throws InterruptedException {
-        driver.get("https://dna-staging.hashedin.com/pods/requests/PR-87");
-    }*/
 }
