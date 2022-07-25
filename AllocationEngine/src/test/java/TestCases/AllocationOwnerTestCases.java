@@ -90,11 +90,11 @@ public class AllocationOwnerTestCases extends BaseClass
     {
         login.login_to_website();
         PO.create_newpod();
-        AllocationOwner.click_pod(PO.pod_id).
-                click_nominate_btn().
-                click_filter().
-                click_apply().
-                Verify_TheFilter();
+        AllocationOwner.click_pod(PO.pod_id)
+                .click_nominate_btn()
+                .click_filter()
+                .Verify_TheFilter()
+                .click_apply();
     }
 
     @Test

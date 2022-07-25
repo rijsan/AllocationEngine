@@ -4,6 +4,7 @@ import TestCases.BaseClass;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import java.time.LocalDateTime;
@@ -28,20 +29,21 @@ public class PodsPlatformPage extends BaseClass
     By skill_set = By.xpath("(//input[@class=\"ant-select-selection-search-input\"])[4]");
     // Java
     By save_config_btn = By.xpath("//span[contains(text(),\"Save Configuration\")]");
-    By new_pod_btn = By.xpath("//span[contains(text(),\" New Pod\")]");
+    By disabled_save_config_btn = By.xpath("//button[@disabled]//span[contains(text(),'Save Configuration')]");
+    By new_pod_btn = By.xpath("//button[@class='ant-btn ant-btn-link']//span[contains(text(),'New Pod')]");
     By pod_name = By.xpath("//input[contains(@placeholder,\"Pod Name\")]");
     By onboard_date = By.xpath("//input[contains(@id,\"On-boarding\")]");
     //By onboard_date_today = By.xpath("(//td[contains(@class,\"ant-picker-cell-today\")])[1]");
-    By onboard_date_today = By.xpath("//a[@class='ant-picker-today-btn']");
+    By onboard_date_today = By.xpath("(//a[@class='ant-picker-today-btn'])[1]");
     By billing_date = By.xpath("//input[contains(@id,\"Billing start\")]");
-    By billing_date_today = By.xpath("(//td[contains(@class,'ant-picker-cell-today')]//following::td//div)[1]");
-    By billing_end_tommorow = By.xpath("((//td[contains(@class,'today')])[2]//following::div)[1]");
+    By billing_date_today = By.xpath("(//a[@class='ant-picker-today-btn'])[2]");
+    By billing_date_tommorow = By.xpath("((//td[contains(@class,'today')])[2]//following::div)[1]");
 
     By pod_SKU = By.xpath("//input[contains(@id,\"pod-template-1\")]");
     By pod_SKU_value = By.xpath("//div[contains(text(),\"Size: \") ]");
     By confirm_pod_btn = By.xpath("//button[@id=\"submitRoundBtn\" ]");
     By select_config = By.xpath("//input[@id=\"podconfiguration-1\" ]");
-    By continue_btn = By.xpath("//span[text()=\"Continue\" ]");
+    By continue_btn = By.xpath("//button[@class='ant-btn ant-btn-primary']//span[text()='Continue']");
     By confirm_btn = By.xpath("//span[text()=\"Confirm\" ]");
     By all_pods = By.xpath("(//div[@class=\"ant-space-item\"]//a)");
     By move_to_allocation_btn = By.xpath("//span[text()=\"Move to Allocation\"]");
@@ -52,6 +54,7 @@ public class PodsPlatformPage extends BaseClass
     public void create_newpod() throws InterruptedException {
         Thread.sleep(7000);
         go_to_pods_platform();
+
         click_test_btn();
         click_edit_btn();
         set_delivery_leader();
@@ -62,12 +65,13 @@ public class PodsPlatformPage extends BaseClass
         Thread.sleep(5000);
         click_new_config();
         set_config_name();
-        set_config_name();
+        //set_config_name();
         click_config_start_date();
         set_todays_date();
         set_capability("SDET");
         set_track("SDET");
         set_skill("Java");
+        check_config_name_notEmpty();
         click_save_config();
         //wait_for_message();
         click_new_pod();
@@ -137,8 +141,11 @@ public class PodsPlatformPage extends BaseClass
         return this;
     }
 
-    public PodsPlatformPage click_test_btn() throws InterruptedException {
-
+    public PodsPlatformPage click_test_btn() throws InterruptedException
+    {
+        driver.navigate().refresh();
+        Thread.sleep(5000);
+        driver.navigate().refresh();
         wait.until(ExpectedConditions.elementToBeClickable(test_btn));
         wait.until(ExpectedConditions.visibilityOfElementLocated(test_btn));
 
@@ -174,7 +181,9 @@ public class PodsPlatformPage extends BaseClass
         return this;
     }
 
-    public PodsPlatformPage click_update_btn() throws InterruptedException {
+    public PodsPlatformPage click_update_btn() throws InterruptedException
+    {
+        Thread.sleep(5000);
         wait.until(ExpectedConditions.elementToBeClickable(update_btn));
         do_click(update_btn);
         return this;
@@ -251,7 +260,10 @@ public class PodsPlatformPage extends BaseClass
     }
     public PodsPlatformPage click_new_pod() throws InterruptedException
     {
-        Thread.sleep(5000);
+        Thread.sleep(20000);
+
+        Actions action = new Actions(driver);
+        action.moveToElement(driver.findElement(new_pod_btn)).perform();
         wait.until(ExpectedConditions.elementToBeClickable(new_pod_btn));
         do_click(new_pod_btn);
         return  this;
@@ -278,9 +290,9 @@ public class PodsPlatformPage extends BaseClass
         return  this;
     }
     public PodsPlatformPage set_billing_start_date() throws InterruptedException {
-        wait.until(ExpectedConditions.presenceOfElementLocated(billing_end_tommorow));
-        wait.until(ExpectedConditions.elementToBeClickable(billing_end_tommorow));
-        do_click(billing_end_tommorow);
+        wait.until(ExpectedConditions.presenceOfElementLocated(billing_date_today));
+        wait.until(ExpectedConditions.elementToBeClickable(billing_date_today));
+        do_click(billing_date_today);
         return  this;
     }
     public PodsPlatformPage set_SKU() throws InterruptedException {
@@ -326,23 +338,31 @@ public class PodsPlatformPage extends BaseClass
         return  this;
     }
     public PodsPlatformPage click_confirm_btn() throws InterruptedException {
+        Thread.sleep(7000);
         wait.until(ExpectedConditions.elementToBeClickable(confirm_btn));
         do_click(confirm_btn);
         return  this;
     }
-    public PodsPlatformPage click_latest_created_pod() throws InterruptedException {
+    public PodsPlatformPage click_latest_created_pod() throws InterruptedException
+    {
         Thread.sleep(4000);         // as after 2 success messages it takes some time to display new pod
         //driver.navigate().refresh();
 
-        wait.until(ExpectedConditions.presenceOfElementLocated(all_pods));
+        //wait.until(ExpectedConditions.presenceOfElementLocated(all_pods));
+        Thread.sleep(5000);
         int size = driver.findElements(all_pods).size();
-        By latest_pod = By.xpath("(//div[@class=\"ant-space-item\"]//a)["+size+"]");
+        By latest_pod = By.xpath("(//div[@class='ant-space-item']//a)["+size+"]");
         pod_id = driver.findElement(latest_pod).getText();
-        do_click(latest_pod);
+        By latest_pod_id = By.xpath("(//div[@class='ant-space-item']//a[text()='"+pod_id+"'])");
+        Actions action = new Actions(driver);
+        action.moveToElement(driver.findElement(latest_pod_id)).perform();
+        wait.until(ExpectedConditions.elementToBeClickable(latest_pod_id));
+        do_click(latest_pod_id);
         return this;
     }
     public PodsPlatformPage click_move_to_allocation() throws InterruptedException
     {
+        Thread.sleep(10000);
         wait.until(ExpectedConditions.elementToBeClickable(move_to_allocation_btn));
         do_click(move_to_allocation_btn);
         return this;
@@ -354,10 +374,15 @@ public class PodsPlatformPage extends BaseClass
         Assert.assertTrue(actual.contains("success"));
         return this;
     }
-//    public PodsPlatform click_() throws InterruptedException {
-//        wait_and_click();
-//        return this;
-//        }
 
+    public PodsPlatformPage check_config_name_notEmpty() throws InterruptedException
+    {
+        if(driver.findElements(disabled_save_config_btn).size()!=0)
+        {
+            do_click(config_name);
+            driver.findElement(config_name).sendKeys("new_pod");
+        }
+        return  this;
+    }
 
 }

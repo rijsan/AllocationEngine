@@ -23,15 +23,16 @@ public class Utility extends BaseClass
         extent.setSystemInfo("Tester","Rijul, Saurabh, Chandana, Rakesh, Pooja, Saji");
         return extent;
     }
-    public String takeScreenShot(String pageName)throws InterruptedException{
+    public String takeScreenShot(String pageName)throws InterruptedException
+    {
         try {
             TakesScreenshot scrnShot =((TakesScreenshot)driver);
             File SrcFile=scrnShot.getScreenshotAs(OutputType.FILE);
-            File DestFile=new File(System.getProperty("user.dir")+"AllocationEngine/Screenshots/"+pageName+".png");
+            File DestFile=new File(System.getProperty("user.dir")+"/Screenshots/"+ts+"/"+pageName+".png");
 
             //Copy file at destination
             FileUtils.copyFile(SrcFile, DestFile);
-            String path = System.getProperty("user.dir")+"\\Screenshots\\"+pageName+".png";
+            String path = System.getProperty("user.dir")+"/Screenshots/"+ts+"/"+pageName+".png";
             System.out.println("path 1 "+path);
             return path;
         }

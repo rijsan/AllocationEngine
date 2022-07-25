@@ -89,7 +89,9 @@ public class MyPodsPage extends BaseClass
         do_click(By.xpath("//span[text()=\""+pod+"\"]"));
         return this;
     }
-    public MyPodsPage click_nominate() throws InterruptedException {
+    public MyPodsPage click_nominate() throws InterruptedException
+    {
+        wait.until(ExpectedConditions.elementToBeClickable(zero_nominations));
         do_click(zero_nominations);
         return this;
     }

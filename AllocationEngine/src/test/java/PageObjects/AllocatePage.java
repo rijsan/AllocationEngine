@@ -114,6 +114,7 @@ public class AllocatePage extends BaseClass
     }
     public AllocatePage Validate_MostRecentPod(String mostRecentPod)
     {
+        wait.until(ExpectedConditions.elementToBeClickable(recent_podinlist_xpath));
         String recentPod = driver.findElement(recent_podinlist_xpath).getText();
         Assert.assertEquals(recentPod,mostRecentPod);
         return this;
@@ -236,7 +237,7 @@ public class AllocatePage extends BaseClass
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", driver.findElement(By.xpath("(//img[contains(@src,\"view\")])[" + i + "]")));
             // get name of hasher
             wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("(//img[contains(@src,\"view\")])["+i+"]//ancestor::tr//div[@class=\"profile\"]//h2[@class=\"name\"]")));
-            name = driver.findElement(By.xpath("(//img[contains(@src,\"view\")])["+i+"]//ancestor::tr//div[@class=\"profile\"]//h4[@class=\"email\"]")).getText();
+            name = driver.findElement(By.xpath("(//img[contains(@src,'view')])["+i+"]//ancestor::tr//div[@class='profile']//h4[@class='email']")).getText();
             // click eye icon
             do_click(By.xpath("(//img[contains(@src,\"view\")])[" + i + "]"));
             //Thread.sleep(1000);
@@ -253,6 +254,10 @@ public class AllocatePage extends BaseClass
                     {
                         System.out.println("already Allocated");
                         flag=true;
+                    }
+                    else
+                    {
+                        System.out.println("Unallocated Hasher confirmed");
                     }
                 }
             }
@@ -368,8 +373,8 @@ public class AllocatePage extends BaseClass
     }
 
     // chandana's action Methods
-    public String SkillFilter() {
-
+    public String SkillFilter()
+    {
         driver.findElement(SkillInFilter).isDisplayed();
         return driver.findElement(SkillInFilter).getText();
     }

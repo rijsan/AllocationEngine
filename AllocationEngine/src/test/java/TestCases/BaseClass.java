@@ -8,6 +8,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 
@@ -15,6 +16,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
@@ -22,7 +25,15 @@ public class BaseClass {
     public static WebDriver driver;
     public static WebDriverWait wait;
     public static Properties prop;
+    public static String ts;
 
+    @BeforeClass
+    public static WebDriver get_Timestamp()
+    {
+        ts = Timestamp.from(Instant.now()).toString();
+        System.out.println(ts);
+        return driver;
+    }
     @BeforeMethod
     public static WebDriver initialSetup()
     {
@@ -40,7 +51,7 @@ public class BaseClass {
         driver.manage().window().maximize();
         driver.get(prop.getProperty("Url"));
 
-        wait = new WebDriverWait(driver, 40);
+        wait = new WebDriverWait(driver, 100);
         return driver;
     }
     @BeforeTest
